@@ -4,15 +4,15 @@ hudson.plugins.claim.ClaimBuildAction instance for the claim.</p>
 <p>Here is an example that sends messages to the configured Slack channel.</p>
 <pre>
 def build = action.owner
-def notifier = build.project.publishers.find { k, v -&gt; v.class.name == 'jenkins.plugins.slack.SlackNotifier' }.value
-def slackServiceClass = notifier.class.classLoader.loadClass('jenkins.plugins.slack.StandardSlackService')
+def notifier = build.project.publishers.find { k, v -&gt; v.class.name == &#39;jenkins.plugins.slack.SlackNotifier&#39; }.value
+def slackServiceClass = notifier.class.classLoader.loadClass(&#39;jenkins.plugins.slack.StandardSlackService&#39;)
 def slackService = slackServiceClass.newInstance(notifier.teamDomain, notifier.authToken, notifier.room)
 if (action.claimed) {
-  def sticky = action.isSticky() ? ', sticky' : ''
-  def assignedBy = (action.assignedBy == action.claimedBy) ? '' : ", assigned by ${action.assignedBy}"
-  slackService.publish("${action.claimedBy} claimed: ${build}${sticky}${assignedBy} ${build.absoluteUrl}\n ${action.reason}", 'good')
+  def sticky = action.isSticky() ? &#39;, sticky&#39; : &#39;&#39;
+  def assignedBy = (action.assignedBy == action.claimedBy) ? &#39;&#39; : &quot;, assigned by ${action.assignedBy}&quot;
+  slackService.publish(&quot;${action.claimedBy} claimed: ${build}${sticky}${assignedBy} ${build.absoluteUrl}\n ${action.reason}&quot;, &#39;good&#39;)
 } else {
-    slackService.publish("claim dropped for: ${build} ${build.absoluteUrl}", 'good')
+    slackService.publish(&quot;claim dropped for: ${build} ${build.absoluteUrl}&quot;, &#39;good&#39;)
 }
 </pre>
 </div>
