@@ -237,18 +237,17 @@ public abstract class AbstractClaimBuildAction<T extends Saveable> extends Descr
     public abstract String getNoun();
     
     protected void evalGroovyScript() {
-    	Binding binding = new Binding();
-    	binding.setVariable("action", this);
-    	GroovyShell shell = new GroovyShell(binding);
-    	ClaimConfig config = ClaimConfig.get();
-    	String groovyScript = config.getGroovyScript();
-    	if (!groovyScript.isEmpty()) {
-    		try {
-    			shell.evaluate(groovyScript);
-    		} catch (Exception e) {
+        ClaimConfig config = ClaimConfig.get();
+        String groovyScript = config.getGroovyScript();
+        if (!groovyScript.isEmpty()) {
+            Binding binding = new Binding();
+            binding.setVariable("action", this);
+            GroovyShell shell = new GroovyShell(binding);
+            try {
+                shell.evaluate(groovyScript);
+            } catch (Exception e) {
                 LOGGER.log(Level.WARNING, "Error evaluating Groovy script",e);
-    		}
-    	}
-    	return;
+            }
+        }
     }
 }
