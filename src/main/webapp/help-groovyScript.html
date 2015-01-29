@@ -1,10 +1,9 @@
-<div>
- Groovy script to run when claims are changed. The variable <code>action</code> is bound to the hudson.plugins.claim.ClaimBuildAction instance for the claim.
- <p/>
- Here is an example that sends messages to the configured Slack channel.
- <pre>
+<div>Groovy script to run when claims are changed. The variable <code>action</code> is bound to the
+hudson.plugins.claim.ClaimBuildAction instance for the claim.<br>
+Here is an example that sends messages to the configured Slack channel.
+<pre>
 def build = action.owner
-def notifier = build.project.publishers.find { k, v -> v.class.name == 'jenkins.plugins.slack.SlackNotifier' }.value
+def notifier = build.project.publishers.find { k, v -&gt; v.class.name == 'jenkins.plugins.slack.SlackNotifier' }.value
 def slackServiceClass = notifier.class.classLoader.loadClass('jenkins.plugins.slack.StandardSlackService')
 def slackService = slackServiceClass.newInstance(notifier.teamDomain, notifier.authToken, notifier.room)
 if (action.claimed) {
@@ -14,5 +13,5 @@ if (action.claimed) {
 } else {
     slackService.publish("claim dropped for: ${build} ${build.absoluteUrl}", 'good')
 }
- </pre>
+</pre>
 </div>
