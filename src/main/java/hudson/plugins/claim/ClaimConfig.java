@@ -17,7 +17,11 @@ public class ClaimConfig extends GlobalConfiguration {
      * Whether we want to send emails to the assignee when items are claimed/assigned
      */
     private boolean sendEmails;
-
+    
+    /**
+     * Groovy script to be run when a claim is changed.
+     */
+    private String groovyScript;
 
     /**
      * This human readable name is used in the configuration screen.
@@ -31,6 +35,7 @@ public class ClaimConfig extends GlobalConfiguration {
         // To persist global configuration information,
         // set that to properties and call save().
         sendEmails = formData.getBoolean("sendEmails");
+        groovyScript = formData.getString("groovyScript");
         save();
         return super.configure(req,formData);
     }
@@ -49,6 +54,22 @@ public class ClaimConfig extends GlobalConfiguration {
      */
     public void setSendEmails(boolean val) {
         sendEmails = val;
+    }
+    
+    /**
+     * This method returns the Groovy script as a String
+     * @return String containing the Groovy script to run when claims are changed.
+     */
+    public String getGroovyScript() {
+        return groovyScript;
+    }
+    
+    /**
+     * Set the Groovy script to run when a claim is changed.
+     * @param val the script to use
+     */
+    public void setGroovyScript(String val) {
+        groovyScript = val;
     }
     
     /**
