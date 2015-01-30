@@ -239,7 +239,7 @@ public abstract class AbstractClaimBuildAction<T extends Saveable> extends Descr
     protected void evalGroovyScript() {
         ClaimConfig config = ClaimConfig.get();
         String groovyScript = config.getGroovyScript();
-        if (!groovyScript.isEmpty()) {
+        if ((groovyScript != null) && (!groovyScript.isEmpty())) {
             Binding binding = new Binding();
             binding.setVariable("action", this);
             GroovyShell shell = new GroovyShell(binding);
