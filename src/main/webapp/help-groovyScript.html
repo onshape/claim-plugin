@@ -11,7 +11,7 @@ if (notifier) {
   if (action.claimed) {
     def sticky = action.isSticky() ? &#39;, sticky&#39; : &#39;&#39;
     def assignedBy = (action.assignedBy == action.claimedBy) ? &#39;&#39; : &quot;, assigned by ${action.assignedBy}&quot;
-    slackService.publish(&quot;${action.claimedBy} claimed: ${build}${sticky}${assignedBy} ${build.absoluteUrl}\n ${action.reason}&quot;, &#39;good&#39;)
+    slackService.publish(&quot;${action.claimedBy} claimed: ${build}${sticky}${assignedBy}\n${build.absoluteUrl}\n ${action.reason}&quot;, &#39;good&#39;)
   } else {
     slackService.publish(&quot;claim dropped for: ${build} ${build.absoluteUrl}&quot;, &#39;good&#39;)
   }
