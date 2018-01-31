@@ -1,17 +1,7 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core">
-		<j:if test="${it.claimed}">
-		<j:choose>
-			<j:when test="${it.reason != null}">
-			<img width="16" height="16"
-			  title="${%claimed.reason(it.claimedByName,it.reason)}"
-			  src="${imagesURL}/16x16/lock.gif"/>
-			 </j:when>
-			 <j:otherwise>
-			<img width="16" height="16"
-			  title="${%claimed(it.claimedBy)}"
-			  src="${imagesURL}/16x16/lock.gif"/>
-			 </j:otherwise>
-		</j:choose>
-		</j:if>
-</j:jelly>  
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout">
+    <j:if test="${it.claimed}">
+        <l:icon class="icon-claim-claim icon-sm" title="${it.messageProvider.shortClaimDescription}"/>
+    </j:if>
+</j:jelly>
+

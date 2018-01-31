@@ -1,18 +1,15 @@
 package hudson.plugins.claim;
 
-import java.io.ObjectStreamException;
-
 import hudson.model.Run;
+import jenkins.model.RunAction2;
 
-public class ClaimBuildAction extends AbstractClaimBuildAction<Run> {
+import java.util.Optional;
+
+public final class ClaimBuildAction extends AbstractClaimBuildAction<Run> implements RunAction2 {
 
     private static final long serialVersionUID = 1L;
 
-    private transient Run run;
-
-    public ClaimBuildAction(Run run) {
-        super(run);
-    }
+    private transient Run owner;
 
     public String getDisplayName() {
         return Messages.ClaimBuildAction_DisplayName();
@@ -23,16 +20,33 @@ public class ClaimBuildAction extends AbstractClaimBuildAction<Run> {
         return Messages.ClaimBuildAction_Noun();
     }
 
-    public Object readResolve() throws ObjectStreamException {
-        if (run != null && owner == null) {
-            owner = run;
-        }
-        return this;
-    }
-
     @Override
     String getUrl() {
         return owner.getUrl();
     }
 
+    @Override
+    protected Run getOwner() {
+        return owner;
+    }
+
+    @Override
+    public void onAttached(Run<?, ?> run) {
+        owner = run;
+    }
+
+    @Override
+    public void onLoad(Run<?, ?> run) {
+        owner = run;
+    }
+
+    @Override
+    protected Optional<AbstractClaimBuildAction> getNextAction() {
+        Run nextRun = owner.getNextBuild();
+        if (nextRun != null) {
+            ClaimBuildAction action = nextRun.getAction(ClaimBuildAction.class);
+            return Optional.ofNullable(action);
+        }
+        return Optional.empty();
+    }
 }
