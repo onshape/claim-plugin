@@ -78,7 +78,7 @@ public final class ClaimPublisher extends Notifier implements SimpleBuildStep {
                         @Nonnull TaskListener listener) throws InterruptedException, IOException {
 
         Result runResult = build.getResult();
-        if (runResult != null && runResult.isWorseThan(Result.SUCCESS)) {
+        if ((runResult == null) || runResult.isWorseThan(Result.SUCCESS)) {
             ClaimBuildAction action = new ClaimBuildAction();
             build.addAction(action);
             build.save();
