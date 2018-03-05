@@ -40,6 +40,12 @@ public class PreventRefreshFilter extends SaveableListener implements Filter  {
     @Initializer(after = InitMilestone.PLUGINS_STARTED)
     @SuppressWarnings("WeakerAccess")
     public static void initAutoRefreshFilter() throws ServletException {
+        // Sleep to try to prevent deadlock at startup.
+        try {
+            Thread.sleep(9000);
+        }
+        catch (java.lang.InterruptedException e) {
+        }
         initAutoRefreshFilter(ClaimConfig.get());
     }
 
